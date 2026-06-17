@@ -1,7 +1,6 @@
 import os
 from decouple import config, Csv
 import dj_database_url
-import django_heroku
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -120,8 +119,6 @@ STATICFILES_DIRS = (
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-django_heroku.settings(locals())
 
 # Override storage in tests to bypass django-heroku's Whitenoise manifest requirement
 import sys
