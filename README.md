@@ -10,15 +10,14 @@ This is a Django application for personal gallery that allows a user to upload i
  Click [View Site](https://picturesharen.herokuapp.com/)  to visit the site
   
 ## Screenshots 
-###### Home page
+###### Home page (Hero)
+<img src="https://raw.githubusercontent.com/mnyando/Picture-Globe/master/static/images/landingpage.png" width="100%">
  
-<img src="https://raw.githubusercontent.com/Owiti-Charles/Picture-Globe/master/static/images/landingpage.png">
- 
- ###### Search results
- <img src="https://raw.githubusercontent.com/Owiti-Charles/Picture-Globe/master/static/images/searchfood.png"> 
+###### Home page (Gallery Grid)
+<img src="https://raw.githubusercontent.com/mnyando/Picture-Globe/master/static/images/gallery.png" width="100%">
 
- ###### Image Details 
- <img src="https://raw.githubusercontent.com/Owiti-Charles/Picture-Globe/master/static/images/modalscrn.png">
+###### Expanded Image Details Modal
+<img src="https://raw.githubusercontent.com/mnyando/Picture-Globe/master/static/images/modalscrn.png" width="100%">
  
 ## User Story  
   
