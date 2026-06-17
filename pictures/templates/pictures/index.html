@@ -1,66 +1,123 @@
 {% extends 'layouts.html' %}
 
-
 {% block content %}
 <div class="container-fluid landing">
-    <h2 class="text-center imagea">Welcome to Picture Share</h2>
-    <a href="#b" class="scroll"><button class="btn btn-sm btn-info image D-block mx-auto">Browse</button></a>
+    <h2 class="text-center imagea">Picture Share</h2>
+    <p class="landing-tagline">Explore a world of high-definition visual assets. Seamlessly browse, filter, and share stunning photography from around the globe.</p>
+    <a href="#gallery-section" class="scroll"><button class="btn btn-browse">Browse Gallery</button></a>
 </div>
 
-<div class="container-fluid boded" id="b">
+<div class="container-fluid boded" id="gallery-section">
     <div class="container">
-
-
-        <div class="row">
-            <div class="col-md-7">
+        <div class="row align-items-center">
+            <div class="col-md-6">
                 <h3>Gallery</h3>
             </div>
-            <div class="col-md-5">
-            <span id="locations">
-                {% for location in locations %}
-                    <a class="btn btn-outline-info btn-sm" id="btn"
-                       href="/location/{{location.name}}">{{location.name}}</a>
-                {%endfor%}
-             </span>
+            <div class="col-md-6">
+                <span id="locations">
+                    <a class="location-chip active" href="/">All Locations</a>
+                    {% for location in locations %}
+                        <a class="location-chip" href="/location/{{location.name}}">{{location.name}}</a>
+                    {% endfor %}
+                </span>
             </div>
         </div>
         <hr>
-        <div class="card-columns">
+
+        {% if images %}
+        <div class="gallery-grid">
             {% for image in images %}
-            <div class="card" data-toggle="modal" data-target="#{{image.id}}">
-                <img src="{{image.image.url}}" alt="{{image.name}}" class="card-img">
+            <!-- Gallery Item Card -->
+            <div class="photo-card" data-toggle="modal" data-target="#modal-{{image.id}}">
+                <img src="{{image.image.url}}" alt="{{image.name}}">
+                <div class="photo-overlay">
+                    <div class="photo-title">{{image.name}}</div>
+                    <div class="photo-meta-tags">
+                        <span class="photo-tag cat">{{image.category}}</span>
+                        <span class="photo-tag loc">{{image.location}}</span>
+                    </div>
+                </div>
             </div>
 
-
-            <div class="modal fade " id="{{image.id}}" tabindex="-1" role="dialog"
-                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+            <!-- Detail Modal (Side-by-Side) -->
+            <div class="modal fade" id="modal-{{image.id}}" tabindex="-1" role="dialog"
+                 aria-labelledby="imageModalLabel-{{image.id}}" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                     <div class="modal-content modalcard">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="imageheader">{{image.name}}</h5>
+                            <h5 class="modal-title" id="imageModalLabel-{{image.id}}">Image Details</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <img src="{{image.image.url}}" alt="{{image.name}}" class="img-fluid">
-                            <p class="imgdesc text-center">{{image.description}}</p>
-                            <span class="btn btn-sm btn-outline-success">{{image.category}}</span> <a
-                                href="/location/{{image.location}}" class="btn btn-sm btn-outline-info">{{image.location}}</a>
+                            <div class="row">
+                                <!-- Image Column (Left) -->
+                                <div class="col-md-7 modal-img-col">
+                                    <img src="{{image.image.url}}" alt="{{image.name}}" class="img-fluid">
+                                </div>
+                                
+                                <!-- Information Column (Right) -->
+                                <div class="col-md-5 modal-info-col d-flex flex-column justify-content-between">
+                                    <div>
+                                        <h4 class="modal-img-title">{{image.name}}</h4>
+                                        <p class="modal-img-desc">{{image.description}}</p>
+                                        
+                                        <div class="meta-info-list">
+                                            <div class="meta-info-item">
+                                                <span class="meta-info-label">Category</span>
+                                                <span class="meta-info-value">
+                                                    <a href="/search?imagesearch={{image.category}}" class="badge-chip category">{{image.category}}</a>
+                                                </span>
+                                            </div>
+                                            <div class="meta-info-item">
+                                                <span class="meta-info-label">Location</span>
+                                                <span class="meta-info-value">
+                                                    <a href="/location/{{image.location}}" class="badge-chip location">{{image.location}}</a>
+                                                </span>
+                                            </div>
+                                            <div class="meta-info-item">
+                                                <span class="meta-info-label">Author</span>
+                                                <span class="meta-info-value">
+                                                    <i class="fa fa-user-circle text-muted"></i> &nbsp;{{image.author}}
+                                                </span>
+                                            </div>
+                                            <div class="meta-info-item">
+                                                <span class="meta-info-label">Captured</span>
+                                                <span class="meta-info-value">
+                                                    <i class="fa fa-calendar-alt text-muted"></i> &nbsp;{{image.date|date:"F j, Y"}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Copy Link Component -->
+                                    <div class="share-section">
+                                        <span class="share-section-label">Share Image Link</span>
+                                        <div class="share-input-group">
+                                            <input type="text" class="share-url-input" readonly
+                                                   value="{{request.scheme}}://{{request.get_host}}{{image.image.url}}" id="{{image.id}}-url">
+                                            <button class="share-copy-btn" onclick="copyLink('{{image.id}}-url')">
+                                                <i class="fa fa-copy"></i> Copy
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
-                            <input class="form-control input-lg" type="text"
-                                   value="{{image.image.url}}" id="{{image.id}}.url">
-                            <button class="btn btn-success btn-sm" onclick="copyLink('{{image.id}}.url')">Copy</button>
-                            <button type="button" class="btn btn-outline-danger btn-sm" data-dismiss="modal">Close
-                            </button>
+                            <button type="button" class="btn-modal-close" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
+        {% else %}
+        <div class="empty-state">
+            <h2>No images have been uploaded yet.</h2>
+        </div>
+        {% endif %}
     </div>
 </div>
-
 {% endblock %}

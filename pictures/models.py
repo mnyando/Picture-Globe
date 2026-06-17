@@ -27,7 +27,7 @@ class Location(models.Model):
 
     @classmethod
     def update_location(cls, id, value):
-        cls.objects.filter(id=id).update(image=value)
+        cls.objects.filter(id=id).update(name=value)
 
     def save_location(self):
         self.save()
@@ -42,8 +42,8 @@ class Image(models.Model):
     description = models.TextField()
     author = models.CharField(max_length=40, default='admin')
     date = models.DateTimeField(auto_now_add=True)
-    category = models.ForeignKey(Category)
-    location = models.ForeignKey(Location)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
 
     @classmethod
     def filter_by_location(cls, location):

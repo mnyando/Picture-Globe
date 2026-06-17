@@ -11,17 +11,17 @@ def index(request):
 
 def image_location(request, location):
     images = Image.filter_by_location(location)
-    print(images)
-    return render(request, 'pictures/location.html', {'location_images': images})
+    locations = Location.get_locations()
+    return render(request, 'pictures/location.html', {'location_images': images, 'locations': locations, 'current_location': location})
 
 
 def search_results(request):
+    locations = Location.get_locations()
     if 'imagesearch' in request.GET and request.GET["imagesearch"]:
         category = request.GET.get("imagesearch")
         searched_images = Image.search_by_category(category)
         message = f"{category}"
-        print(searched_images)
-        return render(request, 'pictures/search_results.html', {"message": message, "images": searched_images})
+        return render(request, 'pictures/search_results.html', {"message": message, "images": searched_images, "locations": locations})
     else:
         message = "You haven't searched for any image category"
-        return render(request, 'pictures/search_results.html', {"message": message})
+        return render(request, 'pictures/search_results.html', {"message": message, "locations": locations})

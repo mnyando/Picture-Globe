@@ -34,19 +34,21 @@ class TestImage(TestCase):
         self.assertTrue(len(changed_img) > 0)
 
     def test_get_image_by_id(self):
+        self.image_test.save_image()
         found_image = self.image_test.get_image_by_id(self.image_test.id)
         image = Image.objects.filter(id=self.image_test.id)
-        self.assertTrue(found_image, image)
+        self.assertEqual(list(found_image), list(image))
 
     def test_search_image_by_location(self):
         self.image_test.save_image()
-        found_images = self.image_test.filter_by_location(location='moringa')
+        found_images = self.image_test.filter_by_location(location='Moringa')
         self.assertTrue(len(found_images) == 1)
 
     def test_search_image_by_category(self):
+        self.image_test.save_image()
         category = 'home'
         found_img = self.image_test.search_by_category(category)
-        self.assertTrue(len(found_img) > 1)
+        self.assertTrue(len(found_img) == 1)
 
     def tearDown(self):
         Image.objects.all().delete()
@@ -68,7 +70,8 @@ class TestLocation(TestCase):
         self.assertTrue(len(locations) > 0)
 
     def test_get_locations(self):
-        self.location.save_location()
+        new_location = Location(name='Nairobi')
+        new_location.save_location()
         locations = Location.get_locations()
         self.assertTrue(len(locations) > 1)
 
