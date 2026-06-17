@@ -9,10 +9,15 @@
     
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
       <ul class="navbar-nav mr-auto"></ul>
-      <form class="form-inline my-2 my-lg-0 search-form" action="/search" role="search">
-        <input class="form-control" type="search" placeholder="Search categories..." name="imagesearch" aria-label="Search">
-        <button class="search-btn" type="submit">Search</button>
-      </form>
+      <div class="d-flex align-items-center flex-column flex-lg-row">
+        <a href="/add/" class="btn btn-outline-info btn-sm mb-2 mb-lg-0 mr-lg-3" style="border-radius: 20px; font-weight: 600; padding: 0.4rem 1.2rem;">
+          <i class="fa fa-plus-circle"></i> Share Photo
+        </a>
+        <form class="form-inline search-form" action="/search" role="search">
+          <input class="form-control" type="search" placeholder="Search categories..." name="imagesearch" aria-label="Search">
+          <button class="search-btn" type="submit">Search</button>
+        </form>
+      </div>
     </div>
   </div>
 </nav>

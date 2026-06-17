@@ -104,3 +104,35 @@ class CategoryTestClass(TestCase):
         self.category.delete_category()
         category = Category.objects.all()
         self.assertTrue(len(category) == 0)
+
+
+from django.urls import reverse
+from django.core.files.uploadedfile import SimpleUploadedFile
+
+class TestUploadView(TestCase):
+    def test_add_image_view_get(self):
+        response = self.client.get(reverse('pictures:add_image'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'pictures/add_image.html')
+
+    def test_add_image_view_post(self):
+        mock_image = SimpleUploadedFile(
+            name='test_upload.jpg',
+            content=b'\x47\x49\x46\x38\x39\x61\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\xff\xff\xff\x21\xf9\x04\x01\x00\x00\x00\x00\x2c\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02\x44\x01\x00\x3b',
+            content_type='image/jpeg'
+        )
+        post_data = {
+            'image': mock_image,
+            'name': 'Test Uploaded Image',
+            'description': 'This is uploaded via a form submission test.',
+            'author': 'Tester',
+            'category': 'Nature',
+            'location': 'Nairobi'
+        }
+        response = self.client.post(reverse('pictures:add_image'), data=post_data)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, '/')
+        
+        self.assertTrue(Category.objects.filter(name='Nature').exists())
+        self.assertTrue(Location.objects.filter(name='Nairobi').exists())
+        self.assertTrue(Image.objects.filter(name='Test Uploaded Image').exists())
