@@ -10,3 +10,6 @@ python manage.py collectstatic --noinput
 
 # Run migrations
 python manage.py migrate
+
+# Seed database and download images
+python manage.py seed_db

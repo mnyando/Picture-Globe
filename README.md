@@ -8,7 +8,7 @@
 This is a Django application for personal gallery that allows a user to upload images for other to see and be able to to share by coping the image link.
   
 ##  Live Link  
- Click [View Site](https://picturesharen.herokuapp.com/)  to visit the site
+ Click [View Site](https://picture-globe.onrender.com)  to visit the site
   
 ## Screenshots 
 ###### Home page (Hero)
@@ -77,7 +77,7 @@ Open the application on your browser `127.0.0.1:8000`.
   
 * [Python 3.9](https://www.python.org/)  
 * [Django 2.2](https://docs.djangoproject.com/en/2.2/)  
-* [Heroku](https://heroku.com)  
+* [Render](https://render.com)  
   
   
 ## Known Bugs  
